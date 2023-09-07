@@ -26,10 +26,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleLogin(email: String, password: String) {
         val auth=FirebaseAuth.getInstance()
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
+        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
             if(it.isSuccessful)
             {
-                Toast.makeText(this,"Login",Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Login Successful",Toast.LENGTH_LONG).show()
             }
             else{
                 Toast.makeText(this,"Error logging in",Toast.LENGTH_LONG).show()

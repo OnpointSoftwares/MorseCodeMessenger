@@ -1,5 +1,6 @@
 package com.example.morsecodemessenger
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         val password:EditText=findViewById(R.id.edt_password)
         btnLogin.setOnClickListener {
             handleLogin(email.text.toString(),password.text.toString())
+        }
+        btnSignup.setOnClickListener {
+            startActivity(Intent(this,Registration::class.java))
         }
     }
 

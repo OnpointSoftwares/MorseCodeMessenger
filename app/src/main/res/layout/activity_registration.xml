@@ -41,6 +41,19 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Phone"
+            app:hintTextColor="@color/black"
+            >
+            <EditText
+                android:id="@+id/phone"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Username"
             app:hintTextColor="@color/black"
             >

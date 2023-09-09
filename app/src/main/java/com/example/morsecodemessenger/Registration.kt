@@ -34,12 +34,17 @@ class Registration : AppCompatActivity() {
         val password:EditText=findViewById(R.id.user_password)
         val btnLogin:MaterialButton=findViewById(R.id.login_btn)
         val btnSignup:MaterialButton=findViewById(R.id.signup_btn)
+        val phone:EditText=findViewById(R.id.phone)
+        btnLogin.setOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
+        }
         btnSignup.setOnClickListener {
-            if(username.text.toString()!=""||email.text.toString()!=""||password.text.toString()!="") {
+            if(username.text.toString()!=""||email.text.toString()!=""||password.text.toString()!=""||phone.text.toString()!="") {
                 handleSignup(
                     username.text.toString(),
                     email.text.toString(),
-                    password.text.toString()
+                    password.text.toString(),
+                    phone.text.toString()
                 )
             }
             else{
@@ -58,14 +63,14 @@ class Registration : AppCompatActivity() {
         }
     }
 
-    private fun handleSignup(username: String, email: String, password: String) {
+    private fun handleSignup(username: String, email: String, password: String, phone: String) {
         val ref=FirebaseDatabase.getInstance().reference
         val auth= FirebaseAuth.getInstance()
 
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
             if(it.isSuccessful)
             {
-                ref.child("Users").child(it.result.user!!.uid).setValue(user(username,email,password,imageUrl.toString())).addOnCompleteListener {task->
+                ref.child("Users").child(it.result.user!!.uid).setValue(user(phone,username,email,password,imageUrl.toString())).addOnCompleteListener {task->
                     if(task.isSuccessful)
                     {
                         Toast.makeText(this,"Registration Successful",Toast.LENGTH_LONG).show()
@@ -111,7 +116,38 @@ class Registration : AppCompatActivity() {
             }
         }
     }
+    fun uploadImage(fileUri: Uri) {
+        // on below line checking weather our file uri is null or not.
+        if (fileUri != null) {
+            // on below line displaying a progress dialog when uploading an image.
+            val progressDialog = ProgressDialog(this)
+            // on below line setting title and message for our progress dialog and displaying our progress dialog.
+            progressDialog.setTitle("Uploading...")
+            progressDialog.setMessage("Uploading your image..")
+            progressDialog.show()
 
+            // on below line creating a storage refrence for firebase storage and creating a child in it with
+            // random uuid.
+            val ref: StorageReference = FirebaseStorage.getInstance().getReference()
+                .child(UUID.randomUUID().toString())
+            // on below line adding a file to our storage.
+            ref.putFile(fileUri!!).addOnSuccessListener {
+                // this method is called when file is uploaded.
+                // in this case we are dismissing our progress dialog and displaying a toast message
+                it.metadata!!.reference!!.downloadUrl.addOnSuccessListener {uri->
+                    imageUrl=uri
+                }
+                progressDialog.dismiss()
+                Toast.makeText(this, "Image Uploaded..", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                // this method is called when there is failure in file upload.
+                // in this case we are dismissing the dialog and displaying toast message
+                progressDialog.dismiss()
+                Toast.makeText(this, "Fail to Upload Image..", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
     fun uploadImage(fileUri: Bitmap) {
         // on below line checking weather our file uri is null or not.
         if (fileUri != null) {
@@ -153,9 +189,7 @@ class Registration : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage(photo: Uri) {
 
-    }
 
     private fun openCamera() {
             val camera_intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)

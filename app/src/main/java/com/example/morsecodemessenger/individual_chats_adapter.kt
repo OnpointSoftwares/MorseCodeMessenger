@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.morsecodemessenger.R
 import com.example.morsecodemessenger.models.Chat
 import com.google.firebase.database.DataSnapshot
@@ -21,7 +22,18 @@ class individual_chats_adapter(private val chat: List<Chat>) :
         fun bind(chats: Chat) {
             val ref=FirebaseDatabase.getInstance().reference
             itemView.findViewById<TextView>(R.id.text).text= chats.text
-            itemView.findViewById<TextView>(R.id.username).text = chats.sender
+            ref.child("Users").child(chats.sender).addValueEventListener(object:ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    itemView.findViewById<TextView>(R.id.username).text = snapshot.child("phone").value.toString()
+                    itemView.findViewById<CircleImageView>(R.id.profile_pic).load(snapshot.child("profilePictureUrl").value.toString())
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+
         }
     }
 

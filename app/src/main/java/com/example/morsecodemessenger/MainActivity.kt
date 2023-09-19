@@ -13,13 +13,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if(FirebaseAuth.getInstance().currentUser!!.uid==null)
-        {
-
-        }
-        else{
-            startActivity(Intent(this,Chats::class.java))
-        }
         val btnLogin:MaterialButton=findViewById(R.id.btn_login)
         val btnSignup:MaterialButton=findViewById(R.id.btn_signup)
         val email:EditText=findViewById(R.id.etEmail)

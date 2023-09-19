@@ -20,15 +20,15 @@
         <ImageView
             android:scaleType="centerCrop"
             android:layout_gravity="center"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
             android:src="@drawable/icon"
             />
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_gravity="center"
             android:id="@+id/profile_pic"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:src="@drawable/placeholder"
             />
         <Button

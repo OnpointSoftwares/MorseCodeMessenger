@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.morsecodemessenger.Chat_details
 import com.example.morsecodemessenger.R
 import com.example.morsecodemessenger.models.Chat
@@ -24,6 +25,7 @@ class UsersAdapter(private val users: List<user>) :
     class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user1: user) {
             itemView.findViewById<TextView>(R.id.phone).text= user1.phone
+            itemView.findViewById<CircleImageView>(R.id.profile).load(user1.profilePictureUrl)
             itemView.setOnClickListener {
                 val intent=Intent(itemView.context,Chat_details::class.java)
                 intent.putExtra("phone",user1.phone)
